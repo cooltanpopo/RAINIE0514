@@ -1,11 +1,5 @@
-const API_URL = 'https://api.restful-api.dev/objects/ff8081819d82fab6019e255b355d3981';
-
-// Format:
-// data: {
-//   tasks: [
-//     { id, process: 'lapping' | 'polish', item: '', datetime: '', station: '', machine: '', action: '', problem: '', screenshot: '', requirement: '', handler: '', progress: '', resolveTime: '', status: '待處理' | '處理中' | '已完成', remark: '' }
-//   ]
-// }
+// Use Vercel Serverless Function to bypass CORS and network issues
+const API_URL = '/api/tasks';
 
 export async function fetchTasks() {
   try {
