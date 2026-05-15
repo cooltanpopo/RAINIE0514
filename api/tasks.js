@@ -1,13 +1,19 @@
-export default async function handler(req, res) {
-  const BIN_ID = '67d6368ead19ca34f808f967';
-  const API_KEY = '$2a$10$vN0hS9k/N36hX7jW1D.gK.X8H5W9Yv0zS7fX8Z1Q0X4G8W6f7v8v.';
-  const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+// Vercel 後台代理 - 轉接到已驗證可用的 jsonblob.com 儲存空間
+const BLOB_ID = '019e297d-75a3-7e92-bd6b-d4033615ae71';
+const API_URL = `https://jsonblob.com/api/jsonBlob/${BLOB_ID}`;
 
+export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
 
   try {
     if (req.method === 'GET') {
-      const r = await fetch(API_URL, { headers: { 'X-Master-Key': API_KEY } });
+      const r = await fetch(API_URL, {
+        headers: { 'Accept': 'application/json' }
+      });
+      if (!r.ok) {
+        const errText = await r.text();
+        return res.status(r.status).json({ error: errText });
+      }
       const data = await r.json();
       return res.status(200).json(data);
     }
@@ -16,7 +22,10 @@ export default async function handler(req, res) {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
       const r = await fetch(API_URL, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
         body: JSON.stringify(body)
       });
       if (!r.ok) {
