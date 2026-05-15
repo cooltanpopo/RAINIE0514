@@ -5,8 +5,12 @@ export async function fetchTasks() {
     const res = await fetch(`${API_URL}?t=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) throw new Error('Network response was not ok');
     const json = await res.json();
-    // jsonbin structure: { record: { tasks: [] } }
-    return json.record?.tasks || json.data?.tasks || [];
+    
+    // 關鍵修正：相容 JsonBin 的資料結構
+    if (json.record && json.record.tasks) {
+      return json.record.tasks;
+    }
+    return json.tasks || [];
   } catch (err) {
     console.error('Fetch error:', err);
     return [];
