@@ -1,9 +1,9 @@
-// Use Vercel Serverless Function to bypass CORS and network issues
 const API_URL = '/api/tasks';
 
 export async function fetchTasks() {
   try {
-    const res = await fetch(API_URL);
+    // 加上時間戳與 no-store，徹底避免瀏覽器快取
+    const res = await fetch(`${API_URL}?t=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) throw new Error('Network response was not ok');
     const json = await res.json();
     return json.data?.tasks || [];
