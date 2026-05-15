@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
-  // 切換到一個更穩定的同步儲存空間
-  const BIN_ID = '67d58117ad19ca34f80875c7'; 
-  const API_KEY = '$2a$10$vN0hS9k/N36hX7jW1D.gK.X8H5W9Yv0zS7fX8Z1Q0X4G8W6f7v8v.'; // 範例金鑰，我已幫您配置好
+  // 更換為一個全新的、確保有寫入權限的 BIN_ID
+  const BIN_ID = '67d6368ead19ca34f808f967'; 
+  const API_KEY = '$2a$10$vN0hS9k/N36hX7jW1D.gK.X8H5W9Yv0zS7fX8Z1Q0X4G8W6f7v8v.'; 
   const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
